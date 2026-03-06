@@ -36,8 +36,9 @@ if(form){
 
 (function(){
   const path=window.location.pathname;
-  const isHome=/(^\/$|index\.html$)/.test(path);
+  const isHome=/(^\/$|index\.html$|lander\.html$)/.test(path);
   if(!isHome)return;
+
   if(sessionStorage.getItem('sl_age_shown')==='1')return;
   sessionStorage.setItem('sl_age_shown','1');
 
@@ -51,47 +52,18 @@ if(form){
       <button class="btn ghost" id="age-no">No</button>
     </div>
   </div>`;
+
   document.body.appendChild(bd);
   bd.style.display='flex';
 
-  function close(){
-    bd.style.display='none';
-    bd.remove();
-  }
-
   const yes=bd.querySelector('#age-yes');
   const no=bd.querySelector('#age-no');
-  if(yes) yes.addEventListener('click',close);
-  if(no) no.addEventListener('click',close);
-})();
 
-(function(){
-  const path=window.location.pathname;
-  const isHome=/(^\/$|lander\.html$)/.test(path);
-  if(!isHome)return;
-  if(sessionStorage.getItem('sl_age_shown')==='1')return;
-  sessionStorage.setItem('sl_age_shown','1');
-
-  const bd=document.createElement('div');
-  bd.className='modal-backdrop';
-  bd.innerHTML=`<div class="modal">
-    <h3>Are you 18+?</h3>
-    <p>Please confirm to continue.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <button class="btn" id="age-yes">Yes</button>
-      <button class="btn ghost" id="age-no">No</button>
-    </div>
-  </div>`;
-  document.body.appendChild(bd);
-  bd.style.display='flex';
-
-  function close(){
-    bd.style.display='none';
-    bd.remove();
+  function redirect(){
+    window.location.href="https://www.google.com";
   }
 
-  const yes=bd.querySelector('#age-yes');
-  const no=bd.querySelector('#age-no');
-  if(yes) yes.addEventListener('click',close);
-  if(no) no.addEventListener('click',close);
+  if(yes) yes.addEventListener('click',redirect);
+  if(no) no.addEventListener('click',redirect);
+
 })();
