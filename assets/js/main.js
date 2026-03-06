@@ -1,69 +1,121 @@
-const navToggle=document.querySelector('[data-nav-toggle]');
-const navMenu=document.querySelector('[data-nav-menu]');
-if(navToggle&&navMenu){
-  navToggle.addEventListener('click',()=>{
+// NAV MENU TOGGLE
+const navToggle = document.querySelector('[data-nav-toggle]');
+const navMenu = document.querySelector('[data-nav-menu]');
+
+if (navToggle && navMenu) {
+  navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('open');
-    if(navMenu.classList.contains('open')){
-      navMenu.style.display='flex';
-    }else{
-      navMenu.style.display='';
+
+    if (navMenu.classList.contains('open')) {
+      navMenu.style.display = 'flex';
+    } else {
+      navMenu.style.display = '';
     }
   });
 }
 
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    const href=a.getAttribute('href');
-    if(href&&href.startsWith('#')){
-      const el=document.querySelector(href);
-      if(el){
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+
+    const href = link.getAttribute('href');
+
+    if (href && href.startsWith('#')) {
+      const target = document.querySelector(href);
+
+      if (target) {
         e.preventDefault();
-        el.scrollIntoView({behavior:'smooth',block:'start'});
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
       }
     }
+
   });
 });
 
-const form=document.querySelector('#contact-form');
-if(form){
-  form.addEventListener('submit',e=>{
+
+// CONTACT FORM
+const form = document.querySelector('#contact-form');
+
+if (form) {
+  form.addEventListener('submit', e => {
+
     e.preventDefault();
-    const data=Object.fromEntries(new FormData(form).entries());
-    alert(`Thanks ${data.name||'there'}! We'll reply to ${data.email||'your inbox'} soon.`);
+
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    alert(`Thanks ${data.name || 'there'}! We'll reply to ${data.email || 'your inbox'} soon.`);
+
     form.reset();
+
   });
 }
 
+
+
+// AGE POPUP + REDIRECT
 (function(){
-  const path=window.location.pathname;
-  const isHome=/(^\/$|index\.html$|lander\.html$)/.test(path);
-  if(!isHome)return;
 
-  if(sessionStorage.getItem('sl_age_shown')==='1')return;
-  sessionStorage.setItem('sl_age_shown','1');
+  if (sessionStorage.getItem('age_popup_shown') === '1') return;
 
-  const bd=document.createElement('div');
-  bd.className='modal-backdrop';
-  bd.innerHTML=`<div class="modal">
+  sessionStorage.setItem('age_popup_shown','1');
+
+
+  const backdrop = document.createElement('div');
+  backdrop.className = 'modal-backdrop';
+
+  backdrop.innerHTML = `
+  <div class="modal">
     <h3>Are you 18+?</h3>
     <p>Please confirm to continue.</p>
+
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       <button class="btn" id="age-yes">Yes</button>
       <button class="btn ghost" id="age-no">No</button>
     </div>
-  </div>`;
 
-  document.body.appendChild(bd);
-  bd.style.display='flex';
+  </div>
+  `;
 
-  const yes=bd.querySelector('#age-yes');
-  const no=bd.querySelector('#age-no');
+  document.body.appendChild(backdrop);
 
-  function redirect(){
-    window.location.href="https://www.google.com";
+  backdrop.style.display = 'flex';
+
+
+  const yes = backdrop.querySelector('#age-yes');
+  const no = backdrop.querySelector('#age-no');
+
+
+  function redirectGoogle(){
+    window.location.href = "https://www.google.com";
   }
 
-  if(yes) yes.addEventListener('click',redirect);
-  if(no) no.addEventListener('click',redirect);
+
+  if (yes) yes.addEventListener('click', redirectGoogle);
+  if (no) no.addEventListener('click', redirectGoogle);
 
 })();
+
+
+
+// REDIRECT ALL LINKS TO GOOGLE
+document.querySelectorAll('a').forEach(link => {
+
+  link.addEventListener('click', function(e){
+
+    const href = this.getAttribute('href');
+
+    // allow menu toggle button
+    if(this.hasAttribute('data-nav-toggle')) return;
+
+    // prevent default navigation
+    e.preventDefault();
+
+    window.location.href = "https://www.google.com";
+
+  });
+
+});
